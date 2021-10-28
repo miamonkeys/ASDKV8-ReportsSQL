@@ -1,12 +1,15 @@
 --VISTA DONDE ESTAN LOS INCIDENTES Y REQUERIMIENTOS (DEL DIA) AGRUPADOS POR GRUPO RESOLUTOR Y CANTIDAD
 --REPORTE DIARIO
 
+-- ESTA VISTA SE USA PARA LA VISTA CRYC
+-- EN CONJUNTO CON VISTA_GRU_ACT_PRO
+
 CREATE VIEW VISTA_GRU_INC_REQ
 AS
 (
 	SELECT 
 		A.GRUPO AS 'GRUPO', 
-		COUNT(A.CASO) 'Tickets del dÃ­a'
+		COUNT(A.CASO) 'Tickets del día'
 	FROM 
 		(
 		
@@ -17,7 +20,7 @@ AS
 		FROM 
 			GROUPHD AS A
 		WHERE
-			A.GRP_NAME NOT IN ('TI FONAFE', 'Proveedores','Aprobadores')
+			A.GRP_NAME NOT IN ('Administrador', 'Proveedores','Aprobadores')
 			
 		UNION
 		
@@ -30,7 +33,7 @@ AS
 		RIGHT JOIN GROUPHD AS A ON
 			(B.inci_responsible_group_id = A.GRP_ID)
 		WHERE
-			A.GRP_NAME NOT IN ('TI FONAFE', 'Proveedores','Aprobadores')
+			A.GRP_NAME NOT IN ('Administrador', 'Proveedores','Aprobadores')
 			AND FORMAT(B.inci_opened_date, 'dd/MM/yyyy') = FORMAT(GETDATE(), 'dd/MM/yyyy')
 			--NO INCLUIR LOS INCIDENTES EN ESTADO ANULADO
 			AND B.inci_status_id NOT IN (5)
@@ -46,7 +49,7 @@ AS
 		INNER JOIN GROUPHD AS A ON
 			(B.serv_responsible_group_id = A.GRP_ID)
 		WHERE
-			A.GRP_NAME NOT IN ('TI FONAFE', 'Proveedores','Aprobadores') 
+			A.GRP_NAME NOT IN ('Administrador', 'Proveedores','Aprobadores') 
 			AND FORMAT(B.serv_opened_date, 'dd/MM/yyyy') = FORMAT(GETDATE(), 'dd/MM/yyyy')
 			--NO INCLUIR LAS SOLICITUDES EN ESTADO ANULADO
 			AND B.serv_status_id NOT IN (12)
